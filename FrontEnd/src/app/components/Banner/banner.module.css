@@ -1,0 +1,369 @@
+/* src/app/components/BannerZen/bannerZen.module.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+
+.bannerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px 80px;
+  background-color: #f9f9fc;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.textSection {
+  max-width: 500px;
+}
+
+.tagline {
+  display: inline-block;
+  background-color: #ece4e4;
+  color: #000000b7;
+  padding: 5px 15px;
+  border-radius: 12px;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.title {
+  font-size: 48px;
+  color: #000000b7;
+  margin-bottom: 20px;
+  line-height: 1.2;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  
+}
+
+.description {
+  font-size: 18px;
+  color: #6f7287;
+  margin-bottom: 30px;
+  font-family: 'Roboto', sans-serif;
+}
+
+  .demoButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    background-color: #FF7043;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(255, 112, 67, 0.4);
+    text-decoration: none;
+    position: fixed;
+  bottom: 40px;
+  right: 40px;
+    z-index: 1000;
+  }
+
+ .chatButton:hover {
+          transform: translateY(-3px) scale(1.02);
+          box-shadow: 0 5px 5px #FF7043;
+         
+        }
+
+.chatButton {
+ display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          background: linear-gradient(135deg, #FF7043 0%, #ff6f43f3 100%);
+          color: white;
+          padding: 15px 0px;
+          width: 300px;
+          font-size: 20px;
+          font-weight: 700;
+          border: none;
+          border-radius: 50px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          text-decoration: none;
+          box-shadow: 0 10px 30px rgba(106, 48, 147, 0.3);
+          min-width: 200px;
+          margin-top: -20px;
+ 
+  }
+
+
+
+.imageSection {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.assistantImage {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.sessionReminder {
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 30px;
+  left: -15px;
+  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.sessionReminder p {
+  font-weight: bold;
+  width: 200px;
+  margin-bottom: 5px;
+}
+
+.mainImage {
+ border-radius:10px;
+  max-width: 700px;
+}
+
+
+
+.buttonContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.demoButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  background-color:#FF7043;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.demoButton:hover {
+  background-color: #ff6f43e7;
+  transform: translateY(-2px);
+}
+
+.chatIcon {
+  font-size: 1.2rem;
+}
+
+
+.speechBubble {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  color: #333;
+  padding: 10px 15px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: max-content;
+  max-width: 200px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+ 
+}
+
+.speechBubble::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+  border-width: 10px 10px 0;
+  border-style: solid;
+  border-color: white transparent transparent;
+ 
+}
+
+.buttonContainer:hover .speechBubble {
+  opacity: 1;
+}
+
+.buttonContainer {
+  position: relative;
+  display: flex;
+  align-items: flex-start; 
+  gap: 15px; 
+  margin-bottom: 20px;
+}
+
+
+.bubbleImageContainer {
+  width: 60px;
+  height: 60px;
+}
+
+.bubbleImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 3px solid #7abd7a; 
+}
+
+
+.speechBubble {
+  position: relative;
+  top: 0;
+  left: 20%;
+  transform: none;
+  margin-top: 10px; 
+}
+
+
+
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, 10px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.speechBubble {
+  animation: fadeIn 0.5s ease-out 1s forwards;
+}
+
+/* Botão Flutuante - Canto Inferior Direito */
+.floatingButtonContainer {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 15px;
+}
+
+.floatingDemoButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  background-color: #FF7043;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(255, 112, 67, 0.4);
+  text-decoration: none;
+  position: relative;
+  z-index: 2;
+}
+
+.floatingDemoButton:hover {
+  background-color: #ff6f43e7;
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 112, 67, 0.5);
+}
+
+.floatingChatIcon {
+  font-size: 28px;
+}
+
+.floatingSpeechBubble {
+  background-color: white;
+  color: #333;
+  padding: 15px 20px;
+  border-radius: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  max-width: 250px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  position: absolute;
+  bottom: 90px;
+  right: 10px;
+  z-index: 1;
+}
+
+.floatingSpeechBubble.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.floatingBubbleContent {
+  position: relative;
+}
+
+.floatingBubbleContent p {
+  font-weight: 600;
+  margin: 0;
+  font-size: 14px;
+  color: #2D3748;
+}
+
+.floatingBubbleArrow {
+  position: absolute;
+  bottom: -10px;
+  right: 20px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid white;
+}
+
+/* Animações */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.floatingDemoButton {
+  animation: pulse 2s infinite;
+}
+
+.floatingDemoButton:hover {
+  animation: none;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .floatingButtonContainer {
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  .floatingDemoButton {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .floatingChatIcon {
+    font-size: 24px;
+  }
+  
+  .floatingSpeechBubble {
+    max-width: 200px;
+    padding: 12px 16px;
+    bottom: 75px;
+    right: 5px;
+  }
+  
+  .floatingBubbleContent p {
+    font-size: 13px;
+  }
+}

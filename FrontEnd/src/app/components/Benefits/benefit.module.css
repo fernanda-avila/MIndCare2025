@@ -1,0 +1,138 @@
+.benefitsSection {
+  padding: 60px 80px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.imageContainer {
+  width: 40%;
+  padding-right: 30px;
+  position: relative;
+}
+
+.image {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.sessionReminder {
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 30px;
+  left: -15px;
+  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.sessionReminder p {
+  font-weight: bold;
+  width: 200px;
+  margin-bottom: 5px;
+}
+
+.textContainer {
+  width: 55%;
+  padding-left: 30px;
+}
+
+.tagline {
+  display: inline-block;
+  background-color: #FF7043;
+  color: #000000b7;
+  padding: 5px 15px;
+  border-radius: 12px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.mainTitle {
+  font-size: 28px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.description {
+  font-size: 18px;
+  color: #6f7287;
+  line-height: 1.6;
+  margin-top: 20px;
+}
+
+.cardsContainer {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  /* box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); */
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cardIcon {
+  font-size: 40px;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.cardTitle {
+  font-size: 20px;
+  font-weight: 400;
+  color: #444;
+  margin-bottom: 15px;
+}
+
+.cardDescription {
+  font-size: 16px;
+  color: #6f7287;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Estilos de hover agora apenas no card individual */
+.card:hover {
+  background-color: #ece4e457;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+
+.card:hover .cardIcon {
+  transform: translateY(-5px);
+  color: #0056b3;
+}
+
+.card:hover .cardDescription {
+  opacity: 1;
+}
+
+.greenIcon {
+  color: rgba(0, 128, 0, 0.521);
+}
+
+.redIcon {
+  color: rgba(255, 0, 0, 0.568);
+}
+
+.orangeIcon {
+  color: rgba(255, 166, 0, 0.5);
+}

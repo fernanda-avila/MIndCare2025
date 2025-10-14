@@ -1,0 +1,11 @@
+.container { padding: 3rem 1rem; max-width: 900px; margin: 0 auto; }
+.card { display:flex; gap: 1.5rem; background: #fff; padding: 1.5rem; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.06);} 
+.avatar { width: 140px; height: 140px; border-radius: 12px; object-fit: cover; }
+.info { flex:1; display:flex; flex-direction:column; gap: 0.5rem; }
+.name { font-size: 1.75rem; margin:0; }
+.specialty { color:#667eea; font-weight:600; }
+.bio { color:#4b5563; }
+.meta { display:flex; gap: 1rem; align-items:center; margin-top: 8px; }
+.price { font-weight:700; color:#059669; }
+.location { color:#6b7280; }
+.rating { background:#fef3c7; padding:6px 10px; border-radius:8px; }

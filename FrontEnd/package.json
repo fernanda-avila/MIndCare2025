@@ -1,0 +1,27 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "main": "src/app/page.tsx",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "devDependencies": {
+    "@types/node": "24.7.0",
+    "@types/react": "19.1.12",
+    "typescript": "5.9.3"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "axios": "^1.12.2",
+    "leaflet": "^1.9.4",
+    "next": "14.2.3",
+    "ol": "^10.6.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-icons": "^4.12.0"
+  }
+}

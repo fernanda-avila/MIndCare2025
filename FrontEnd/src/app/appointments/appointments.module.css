@@ -1,0 +1,67 @@
+.mcTheme {
+  /* MindCare palette (scoped to elements using .mcTheme) */
+  --mc-bg-gradient: linear-gradient(180deg, #e0fdf5 0%, #f8fafc 100%);
+  --mc-left-gradient: linear-gradient(135deg, #0fbba6 0%, #14b8a6 40%, #22d3ee 100%);
+  --mc-primary: #0fbba6; /* teal */
+  --mc-accent: #f97316; /* orange */
+  --mc-dark: #0f172a;
+  --mc-muted: #475569;
+  --mc-surface: #ffffff;
+  --mc-card-shadow: 0 8px 25px rgba(15, 187, 166, 0.12);
+}
+
+.container {
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: var(--mc-bg-gradient, linear-gradient(180deg, #e0fdf5 0%, #f8fafc 100%));
+  font-family: 'Inter', sans-serif;
+  position: relative;
+}
+
+.content {
+  width: 100%;
+  max-width: 1000px;
+  background: var(--mc-surface);
+  border-radius: 18px;
+  box-shadow: var(--mc-card-shadow);
+  padding: 28px;
+}
+
+.title {
+  color: var(--mc-dark);
+  margin: 0 0 18px 0;
+}
+
+/* back button styles (match admin/profile) */
+.backButton {
+  background: transparent;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  padding: 6px;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--mc-dark);
+}
+
+.backButton:hover {
+  background: rgba(15, 23, 42, 0.06);
+}
+
+.backButtonContainer {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+}
+
+@media (max-width: 700px) {
+  .container { padding: 20px; }
+  .content { padding: 18px; }
+  .backButtonContainer { top: 12px; left: 12px; }
+}

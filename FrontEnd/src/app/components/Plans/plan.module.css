@@ -1,0 +1,275 @@
+.planosContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #f9f9f9 0%, #ffffff 100%);
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+}
+
+.titulo {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 40px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.carrosselContainer {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  padding: 20px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.carrosselTrack {
+  display: flex;
+  justify-content: center;
+  gap: -20px;
+  padding: 20px;
+  transition: transform 0.5s ease;
+  will-change: transform;
+}
+
+.plano {
+  margin-left: -120px;
+  margin-right: -120px;
+  flex: 0 0 300px;
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  position: relative;
+  border: 1px solid #eaeaea;
+  opacity: 0.9;
+}
+
+.planoSelecionado {
+  transform: scale(1.05);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid #7abd7a;
+  z-index: 10;
+  opacity: 1;
+}
+
+.planoAdjacente {
+  transform: scale(0.95);
+  opacity: 0.85;
+}
+
+.planoDistante {
+  transform: scale(0.9);
+  opacity: 0.8;
+}
+
+.planoPopular {
+  border: 2px solid #7abd7a;
+}
+
+.popularBadge {
+  position: absolute;
+  top: -12px;
+  right: 20px;
+  background: #FC6F42;
+  color: white;
+  padding: 6px 15px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.planoNome {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.planoDescricao {
+  color: #7f8c8d;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.planoPreco {
+  font-size: 2.2rem;
+  color: #7abd7a;
+  font-weight: 700;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.planoPreco span {
+  font-size: 1rem;
+  color: #95a5a6;
+  font-weight: 400;
+}
+
+.beneficios {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 30px 0;
+  text-align: left;
+}
+
+.beneficios li {
+  padding: 8px 0;
+  color: #34495e;
+  position: relative;
+  padding-left: 25px;
+  font-size: 0.9rem;
+}
+
+.beneficioIcon {
+  color: #7abd7a;
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+
+.planoInfo {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.buttonsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contratarButton {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.planoButton {
+  background: #68a868;
+  color: white;
+}
+
+.planoButton:hover {
+  background: #68a868;
+  transform: translateY(-2px);
+}
+
+.agendarButton {
+  background: #3498db;
+  color: white;
+}
+
+.agendarButton:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+}
+
+.chatButton {
+  background: #9b59b6;
+  color: white;
+}
+
+.chatButton:hover {
+  background: #8e44ad;
+  transform: translateY(-2px);
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  font-size: 1.2rem;
+  color: #7abd7a;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+
+}
+
+.arrow:hover {
+  background: #7abd7a;
+  color: white;
+}
+
+.arrowLeft {
+  left: 0;
+}
+
+.arrowRight {
+  right: 0;
+}
+
+.carregando {
+  width: 100%;
+  text-align: center;
+  padding: 40px;
+  color: #7f8c8d;
+}
+
+/* Responsividade */
+@media (max-width: 1200px) {
+  .plano {
+    flex: 0 0 280px;
+  }
+}
+
+@media (max-width: 992px) {
+  .plano {
+    flex: 0 0 250px;
+    padding: 25px;
+  }
+  
+  .planoSelecionado {
+    transform: scale(1.03);
+  }
+  
+  .planoAdjacente {
+    transform: scale(0.97);
+  }
+  
+  .planoDistante {
+    transform: scale(0.93);
+  }
+}
+
+@media (max-width: 768px) {
+  .carrosselTrack {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .plano {
+    flex: 0 0 100%;
+    max-width: 350px;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  
+  .planoSelecionado {
+    order: -1;
+  }
+  
+  .titulo {
+    font-size: 2rem;
+  }
+}

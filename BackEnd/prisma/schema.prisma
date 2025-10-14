@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+ provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  name         String
+  passwordHash String
+  role         String        @default("USER")
+  avatarUrl    String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  professional Professional?
+  appointments Appointment[]
+}
+
+model Professional {
+  id           Int           @id @default(autoincrement())
+  user         User?         @relation(fields: [userId], references: [id])
+  userId       Int?          @unique
+  avatarUrl    String?
+  name         String
+  specialty    String?
+  bio          String?
+  active       Boolean       @default(true)
+  appointments Appointment[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Appointment {
+  id             Int           @id @default(autoincrement())
+  user           User          @relation(fields: [userId], references: [id])
+  userId         Int
+  professional   Professional  @relation(fields: [professionalId], references: [id])
+  professionalId Int
+  startAt        DateTime
+  endAt          DateTime
+  status         String        @default("SCHEDULED")
+  notes          String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([professionalId, startAt])
+  @@index([userId, startAt])                       
+  @@unique([professionalId, startAt, endAt])       // evita duplicar EXATAMENTE o mesmo slot
+}

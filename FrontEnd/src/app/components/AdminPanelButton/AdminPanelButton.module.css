@@ -1,0 +1,33 @@
+.fab {
+  position: fixed;
+  left: 18px;
+  top: 96px; /* um pouco mais abaixo do logo */
+  width: 44px;
+  height: 44px;
+  border-radius: 8px; /* quadrado arredondado para ficar discreto */
+  background: var(--primary);
+  color: var(--white);
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 12px rgba(17,24,39,0.18);
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  z-index: 60;
+}
+
+.fab:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  background: var(--primary-hover);
+}
+
+.fab:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .fab { left: 12px; top: 84px; width: 40px; height: 40px; }
+}

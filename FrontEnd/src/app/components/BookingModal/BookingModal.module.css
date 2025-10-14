@@ -1,0 +1,125 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal {
+  width: 520px;
+  max-width: calc(100% - 32px);
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+/* Strong, self-contained booking theme to avoid being overridden */
+.mcBooking .modal {
+  background: linear-gradient(180deg, #ffffff 0%, #fbfffe 100%);
+  border: 1px solid rgba(15,187,166,0.08);
+  box-shadow: 0 24px 48px rgba(15,187,166,0.08);
+}
+
+.mcBooking .header .avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 3px solid rgba(15,187,166,0.12);
+}
+
+.mcBooking .title {
+  color: #0f172a;
+}
+
+.mcBooking .details {
+  color: #475569;
+}
+
+.mcBooking .btnPrimary {
+  background: linear-gradient(90deg, #0fbba6 0%, #14b8a6 100%);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(15,187,166,0.18);
+}
+
+.mcBooking .btnSecondary {
+  border: 1px solid rgba(15,23,42,0.06);
+}
+
+.mcBooking .input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e6f4ef;
+  background: #fbfffe;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.details {
+  margin-top: 12px;
+  color: #374151;
+}
+
+.form {
+  margin-top: 14px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+}
+
+.btnPrimary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.btnPrimary[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btnSecondary {
+  background: transparent;
+  border: 1px solid #d1d5db;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}

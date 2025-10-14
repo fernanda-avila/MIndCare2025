@@ -1,0 +1,8 @@
+.panelButton {
+  padding: 10px 18px;
+  background: #111827;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
