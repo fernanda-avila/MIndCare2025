@@ -1,3 +1,10 @@
+model ChatMessage {
+  id        Int      @id @default(autoincrement())
+  text      String
+  sender    String   // "user" ou "bot"
+  timestamp DateTime @default(now())
+  userId    String
+}
 generator client {
   provider = "prisma-client-js"
 }

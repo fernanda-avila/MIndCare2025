@@ -8,7 +8,10 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ProfessionalsModule } from './professionals/professionals.module';
 import { AppointmentsModule } from './appointments/appointments.module';
+
 import { UploadsModule } from './uploads/uploads.module';
+import { ChatModule } from './chat/chat.module';
+import { GeminiModule } from './gemini/gemini.module';
 
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 
@@ -23,6 +26,8 @@ import { RolesGuard } from './auth/guards/roles.guard';
     ProfessionalsModule,
     AppointmentsModule,
   UploadsModule,
+  ChatModule,
+  GeminiModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },
