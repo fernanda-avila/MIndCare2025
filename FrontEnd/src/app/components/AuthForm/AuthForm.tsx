@@ -9,6 +9,15 @@ const AuthForm: React.FC = () => {
     password: '',
     name: '',
   });
+  const [asHelper, setAsHelper] = useState(false);
+  const [specialty, setSpecialty] = useState('');
+  const [bio, setBio] = useState('');
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [crp, setCrp] = useState('');
+  const [localLoading, setLocalLoading] = useState(false);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
 
  
   const { login, register, loading, error } = useAuth();
@@ -20,15 +29,49 @@ const AuthForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); 
+    setLocalError(null);
+    setSuccessMsg(null);
     const email = formData.email.trim().toLowerCase();
     const password = formData.password;
     const name = formData.name.trim();
-
     if (isLogin) {
       await login(email, password, { redirectTo: '/' });
-    } else {
-      await register({ name, email, password }, { redirectTo: '/' });
+      return;
     }
+
+    // registration flow
+    if (asHelper) {
+      if (!crp.trim()) { setLocalError('CRP é obrigatório para se candidatar como colaborador'); return; }
+      if (!specialty.trim()) { setLocalError('Especialidade é obrigatória para se candidatar como colaborador'); return; }
+    }
+
+    setLocalLoading(true);
+    try {
+      let avatarUrl: string | undefined = undefined;
+      if (avatarFile) {
+        const fd = new FormData(); fd.append('file', avatarFile);
+        const upl = await fetch((process.env.NEXT_PUBLIC_API_URL || '') + '/uploads', { method: 'POST', body: fd });
+        if (!upl.ok) throw new Error('Falha ao enviar imagem');
+        const dj = await upl.json();
+        avatarUrl = dj.url;
+      }
+      const payload: any = { name, email, password };
+      if (asHelper) { payload.role = 'HELPER'; payload.specialty = specialty; payload.bio = bio; payload.avatarUrl = avatarUrl; payload.crp = crp; }
+      await register(payload, { redirectTo: '/' });
+      setSuccessMsg(asHelper ? 'Sua solicitação de colaborador foi enviada. Aguarde aprovação do admin.' : 'Cadastro realizado com sucesso.');
+      // clear fields
+      setFormData({ email: '', password: '', name: '' });
+      setAsHelper(false); setCrp(''); setSpecialty(''); setBio(''); setAvatarFile(null); setAvatarPreview(null);
+    } catch (err: any) {
+      setLocalError(err?.message || 'Erro no cadastro');
+    } finally {
+      setLocalLoading(false);
+    }
+  };
+
+  const onAvatarChange = (f?: File) => {
+    if (!f) { setAvatarFile(null); setAvatarPreview(null); return; }
+    setAvatarFile(f); setAvatarPreview(URL.createObjectURL(f));
   };
 
   return (
@@ -76,15 +119,36 @@ const AuthForm: React.FC = () => {
         </div>
       )}
 
+      {!isLogin && (
+        <div style={{ marginTop: 10 }}>
+          <button type="button" className={styles.secondary} onClick={() => setAsHelper(!asHelper)}>
+            {asHelper ? 'Cancelar candidatura como colaborador' : 'Se candidatar como colaborador'}
+          </button>
+          {asHelper && (
+            <div style={{ marginTop: 8 }}>
+              <input placeholder="CRP" value={crp} onChange={(e) => setCrp(e.target.value)} />
+              <input placeholder="Especialidade" value={specialty} onChange={(e) => setSpecialty(e.target.value)} />
+              <input placeholder="Bio" value={bio} onChange={(e) => setBio(e.target.value)} />
+              <div style={{ display:'flex', gap:8, alignItems:'center' }}>
+                <input type="file" accept="image/*" onChange={(e) => onAvatarChange(e.target.files?.[0])} />
+                {avatarPreview && <img src={avatarPreview} alt="preview" className={styles.avatarPreview} /> }
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* ✅ Mostra erro do contexto (409, etc.) */}
       {error && (
         <div className={styles.inputGroup}>
           <p style={{ color: '#e11d48', fontSize: 12 }}>{error}</p>
         </div>
       )}
+      {localError && <div className={styles.message + ' ' + styles.error}>{localError}</div>}
+      {successMsg && <div className={styles.message + ' ' + styles.success}>{successMsg}</div>}
 
-      <button type="submit" className={styles.button} disabled={loading}>
-        {loading ? 'Enviando...' : isLogin ? 'Login' : 'Cadastrar'}
+      <button type="submit" className={styles.button} disabled={loading || localLoading}>
+        {(loading || localLoading) ? 'Enviando...' : isLogin ? 'Login' : 'Cadastrar'}
       </button>
 
       <button

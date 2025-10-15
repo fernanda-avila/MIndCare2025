@@ -9,12 +9,14 @@ import Chatbot from './components/ChatBot/ChatBot';
 import GuiaArcoIris from './components/Rainbow/page';
 import ResourcesMap from './components/ResourcesMap/ResourcesMap';
 import AdminPanelButton from './components/AdminPanelButton/AdminPanelButton';
+import AgendaButton from './components/AgendaButton/AgendaButton';
 
 const Home: React.FC = () => {
   return (
     <div>
-      <Navbar />
-      <AdminPanelButton />
+  <Navbar />
+  <AgendaButton />
+  <AdminPanelButton />
       <Banner />
       <Chatbot />
       <Benefits />

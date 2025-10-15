@@ -1,143 +1,329 @@
-/* MindCare booking form styles */
+/* ===== MindCare – Booking / Lista de Profissionais (estilo roxo do layout) ===== */
+
+/* Container principal */
 .formContainer {
   padding: 24px;
-  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(15,23,42,0.06);
-}
-.header { font-size: 1.5rem; margin-bottom: 8px; }
-.headerDescription { color: #475569; margin-bottom: 12px; }
-.filters { display:flex; gap:12px; margin-bottom: 16px; align-items:center }
-.filterInput { padding:8px 10px; border-radius:8px; border:1px solid #e6eef0; }
-.professionalList { display:grid; grid-template-columns: repeat(auto-fill,minmax(280px,1fr)); gap:16px }
-.card { background:white; border-radius:12px; padding:12px; display:flex; gap:12px; align-items:flex-start; border:1px solid #f1f5f9 }
-.photo { width:64px; height:64px; border-radius:10px; object-fit:cover }
-.cardInfo h3 { margin:0; font-size:1.05rem }
-.cardInfo p { margin:4px 0; color:#6b7280 }
-.modal { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:2000 }
-.modalContent { background:white; padding:20px; border-radius:12px; width:520px; box-shadow:0 20px 40px rgba(15,23,42,0.12) }
-.input { padding:8px 10px; border-radius:8px; border:1px solid #e6eef0 }
-.btnPrimary { background: linear-gradient(90deg,#6D28D9,#8B5CF6); color:white; padding:10px 14px; border-radius:10px; border:none }
-.btnSecondary { background:transparent; border:1px solid #e6eef0; padding:10px 14px; border-radius:10px }
-/* BookingForm.module.css */
-
-.formContainer {
-  padding: 20px;
   width: 100%;
-  height: 100vh; /* Faz o container ocupar toda a altura da tela */
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Garante que os itens fiquem no topo */
-  align-items: center;
-  background-color: #e8f0f9; /* Fundo suave para contraste */
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  align-items: stretch;
+  background: #f9f9fb; /* fundo claro */
 }
 
+/* Cabeçalho (igual ao do layout roxo) */
 .header {
-  text-align: left;
-  margin-left: 20px;
-
-  color: #333;
-  font-size: 2rem;
-  margin-bottom: 10px;
-  width: 100%;
+  background: linear-gradient(135deg, #6d28d9, #9333ea);
+  color: #ffffff;
+  padding: 56px 24px 40px;
+  text-align: center;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(109, 40, 217, 0.25);
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0 0 16px 0;
 }
 
 .headerDescription {
-  text-align: left;
-  color: #777;
-  font-size: 1rem;
-  margin-bottom: 30px;
+  color: #f3e8ff;
+  font-size: 1.05rem;
+  margin: 8px 0 24px 0;
+  text-align: center;
+}
+
+/* Filtros (inputs com borda 2px e foco roxo) */
+.filters {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 16px;
+  align-items: end;
+  margin: 20px 0 24px;
+}
+
+@media (max-width: 768px) {
+  .filters {
+    grid-template-columns: 1fr;
+  }
+}
+
+.filterInput,
+.input,
+.filters select,
+.filters input[type="text"],
+.filters input[type="search"] {
   width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 2px solid #d1d5db; /* cinza */
+  background: #ffffff;
+  color: #111827;
+  outline: none;
+  font-size: 1rem;
+  transition: border 0.2s, box-shadow 0.2s;
 }
 
+.filterInput:focus,
+.input:focus,
+.filters select:focus,
+.filters input[type="text"]:focus,
+.filters input[type="search"]:focus {
+  border-color: #6d28d9;
+  box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.15);
+}
+
+/* Grid de profissionais (cards) */
 .professionalList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 24px;
+  margin-top: 8px;
+  justify-items: center; /* centraliza os cards quando cabe apenas um */
+}
+
+@media (max-width: 640px) {
+  .professionalList {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Card */
+.card,
+.professional-card { /* mantém compatível se você usar .professional-card em algum lugar */
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 22px;
+  border: 1px solid #eef2f7;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: flex-start; /* Garante que os cards comecem no início da linha */
-  width: 100%; /* Ocupar toda a largura disponível */
+  gap: 16px;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 760px; /* limita largura máxima do card quando for o único */
 }
 
-.card {
-  width: 220px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 10px;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Adicionando sombra */
+.card:hover,
+.professional-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.12);
 }
 
-.card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Efeito de sombra mais forte ao passar o mouse */
-}
-
-.photo {
-  width: 100px;
-  height: 100px;
+/* Foto */
+.photo,
+.professional-photo {
+  width: 84px;
+  height: 84px;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 10px;
 }
 
-.cardInfo {
-  text-align: center;
-  margin-top: 10px;
+/* Infos do card */
+.cardInfo,
+.professional-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.input {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 4px;
-  border: 1px solid #ccc;
+.cardInfo h3,
+.professional-info h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #111827;
+  font-weight: 800;
 }
 
-.button {
-  width: 100%;
-  padding: 10px;
-  background-color: #4CAF50;
-  color: white;
+.cardInfo p,
+.professional-info p {
+  margin: 0;
+  color: #374151;
+  line-height: 1.45;
+}
+
+/* Destaques (especialidade, rating, etc.) */
+.specialty {
+  color: #6d28d9;
+  font-weight: 700;
+  display: inline-block;
+  margin-top: -2px;
+}
+
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #f59e0b; /* amarelinho das estrelas */
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.pricePill { background: linear-gradient(90deg,#7c3aed,#6d28d9); color: #fff; padding: 6px 10px; border-radius: 999px; font-weight: 800; font-size: 0.95rem; display: inline-block; }
+.priceRow { display:flex; flex-direction:column; align-items:flex-end; gap:6px; }
+.priceLabel { color:#6b7280; font-size:0.75rem; }
+.stars { margin-top: 6px; display:flex; align-items:center; gap:6px; }
+.starFilled { color: #f59e0b; font-size: 18px; }
+.starEmpty { color: #e6e6e6; font-size: 18px; }
+.ratingNumber { color:#374151; font-weight:700; margin-left:4px; font-size:0.95rem; }
+.bioText { color: #374151; margin-top: 6px; font-size: 0.95rem; }
+
+/* Botões (roxo gradiente / contorno roxo) */
+.btnPrimary,
+.button,
+.btn-contact {
+  background: linear-gradient(135deg, #6d28d9, #9333ea);
+  color: #ffffff;
+  padding: 12px 16px;
+  border-radius: 12px;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
-  font-size: 1rem;
+  font-weight: 700;
+  transition: transform 0.18s, opacity 0.18s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
+.btnPrimary:hover,
+.button:hover,
+.btn-contact:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+.btnSecondary {
+  background: transparent;
+  border: 2px solid #6d28d9;
+  color: #6d28d9;
+  padding: 12px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.cta {
+  margin-top: 20px;
+  background: #f3f4f6;
+  padding: 18px;
+  border-radius: 12px;
+}
+
+.cta h3 { margin: 0; color: #111827; }
+.cta p { margin: 8px 0 12px; color: #374151; }
+
+.btnSecondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(109, 40, 217, 0.15);
+}
+
+/* Modal (agenda) — roxo do layout */
 .modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background: rgba(17, 24, 39, 0.55);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 2000;
 }
 
-.modalContent {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  width: 400px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.modalContent,
+.modal .modal { /* mantém compatível com os dois nomes que você usou */
+  background: #ffffff;
+  padding: 28px;
+  border-radius: 16px;
+  width: 520px;
+  max-width: 92vw;
+  box-shadow: 0 20px 40px rgba(17, 24, 39, 0.22);
+  position: relative;
 }
 
-.closeButton {
-  background-color: #f44336;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 10px;
+.modal h2 {
+  margin: 0 0 12px 0;
+  color: #6d28d9;
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.modal input,
+.modal select,
+.modal .input {
   width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 2px solid #d1d5db;
+  margin: 10px 0 16px 0;
+  outline: none;
+  background: #fff;
+  color: #111827;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.modal input:focus,
+.modal select:focus,
+.modal .input:focus {
+  border-color: #6d28d9;
+  box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.15);
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: transparent;
+  color: #111827;
+  border: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+/* Botão fechar “vermelhinho” se você usar closeButton */
+.closeButton {
+  background-color: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 12px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: 700;
+  transition: filter 0.18s;
+}
+.closeButton:hover {
+  filter: brightness(0.95);
+}
+
+/* Espaçamento específico para botões dentro do modal do BookingForm */
+.modal .button {
+  display: block;
+  width: 100%;
+  margin: 4px 0; /* aproximado mais um pouco */
+}
+
+.modal .closeButton {
+  margin-top: 12px; /* garante espaço entre fechar e o conteúdo */
+  margin-bottom: 12px;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .professionalList {
+    grid-template-columns: 1fr;
+  }
+  .card,
+  .professional-card {
+    align-items: center;
+  }
+  .photo,
+  .professional-photo {
+    width: 92px;
+    height: 92px;
+  }
 }

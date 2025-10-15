@@ -2,22 +2,18 @@
 
 import React, { useState } from 'react';
 import styles from './BookingModal.module.css';
+import getUploadUrl from '../../utils/getUploadUrl';
 import { createAppointment, getProfessionalAppointments } from '../../services/appointmentService';
+import { localDateTimeToIso, addMinutesToIso } from '../../utils/datetime';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';
-import { useToast } from '../Toast/ToastContext';
+import { swalError, swalSuccess, swalConfirm } from '../../utils/swal';
 
 type ProfessionalLite = { id: number; name: string; price?: number | null; shortBio?: string | null; avatar?: string | null };
 
-function toIsoLocal(date: string, time: string) {
-  const localDate = new Date(`${date}T${time}:00`);
-  const tzOffsetMin = localDate.getTimezoneOffset();
-  const utcMs = localDate.getTime() - tzOffsetMin * 60000;
-  return new Date(utcMs).toISOString();
-}
-
 export default function BookingModal({ professional, onCloseAction }: { professional: ProfessionalLite; onCloseAction: () => void }) {
   const [date, setDate] = useState('');
+  
   const [time, setTime] = useState('');
   const [duration, setDuration] = useState<'30' | '60'>('60');
   const [notes, setNotes] = useState('');
@@ -25,7 +21,6 @@ export default function BookingModal({ professional, onCloseAction }: { professi
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const { user } = useAuth();
-  const { showToast } = useToast();
 
   const minDate = () => new Date().toISOString().slice(0, 10);
 
@@ -38,16 +33,16 @@ export default function BookingModal({ professional, onCloseAction }: { professi
   const handleConfirm = async () => {
     setError(null);
     if (!user) {
-      showToast('Você precisa estar logada para agendar.');
+      await swalError('Necessário login', 'Você precisa estar logada para agendar.');
       return;
     }
     if (!date || !time) return setError('Selecione data e hora');
     if (isPast()) return setError('Não é possível agendar em data/hora passada');
     setLoading(true);
     try {
-      const startAt = toIsoLocal(date, time);
+      const startAt = localDateTimeToIso(date, time);
       const durMin = duration === '60' ? 60 : 30;
-      const endAt = new Date(new Date(startAt).getTime() + durMin * 60000).toISOString();
+      const endAt = addMinutesToIso(startAt, durMin);
 
   // Se usuário for ADMIN, PROFESSIONAL ou HELPER, pré-checar agenda do profissional para evitar conflitos
   const role = user?.role;
@@ -65,7 +60,7 @@ export default function BookingModal({ professional, onCloseAction }: { professi
           if (conflict) {
             const msg = 'O profissional já possui um agendamento nesse horário. Escolha outro horário.';
             setError(msg);
-            showToast(msg);
+            await swalError('Horário indisponível', msg);
             setLoading(false);
             return;
           }
@@ -75,16 +70,24 @@ export default function BookingModal({ professional, onCloseAction }: { professi
         }
       }
 
-      await createAppointment({ professionalId: professional.id, startAt, endAt, notes: notes?.trim() || undefined });
-  // sucesso: toast, fechar modal e redirecionar para meus agendamentos
-  showToast('Agendamento criado com sucesso');
-  onCloseAction();
+  const payload = { professionalId: Number(professional.id), startAt, endAt, notes: notes?.trim() || undefined };
+  console.log('Agendamento payload (modal):', payload);
+      const created = await createAppointment(payload);
+      // emitir evento para quem estiver escutando (p.ex. página do colaborador)
+      try {
+        window.dispatchEvent(new CustomEvent('appointment:created', { detail: created }));
+      } catch (e) {
+        // ambiente server-side ou restrições: ignora
+      }
+      // sucesso: swal, fechar modal e redirecionar para meus agendamentos
+      await swalSuccess('Agendamento criado', 'Seu agendamento foi criado com sucesso.');
+      onCloseAction();
       router.push('/appointments');
     } catch (e: any) {
       console.error(e);
       const msg = e?.response?.data?.message ?? e?.message ?? 'Erro ao criar agendamento';
       setError(msg);
-      showToast(msg);
+      await swalError('Erro', msg);
     } finally {
       setLoading(false);
     }
@@ -94,7 +97,7 @@ export default function BookingModal({ professional, onCloseAction }: { professi
     <div className={`${styles.overlay} ${styles.mcBooking ?? ''}`} role="dialog" aria-modal="true">
       <div className={styles.modal}>
         <div className={styles.header}>
-          <img src={professional.avatar ?? '/images/terapeuta.png'} alt={professional.name} className={styles.avatar} />
+          <img src={getUploadUrl(professional.avatar ?? '/default-avatar.svg')} alt={professional.name} className={styles.avatar} />
           <div>
             <div className={styles.title}>{professional.name}</div>
             <div className={styles.details}>{professional.price ? `R$ ${professional.price.toFixed(2)}` : 'A consultar'}</div>

@@ -70,9 +70,41 @@ export class AppointmentsService {
     },
   });
 }
-ofProfessional(user: { sub: number; role: string }, professionalId: number) {
-  throw new Error('Method not implemented.');
-}
+  async ofProfessional(user: { sub: number; role: string }, professionalId: number) {
+    // ensure professional exists
+    const prof = await this.prisma.professional.findUnique({ where: { id: professionalId } });
+    if (!prof) throw new NotFoundException('Profissional não encontrado');
+
+    // Admin can fetch any professional's schedule
+    if (user.role === 'ADMIN') {
+      return this.prisma.appointment.findMany({
+        where: { professionalId, status: { not: 'CANCELLED' } },
+        orderBy: { startAt: 'asc' },
+        include: { user: { select: { id: true, name: true, email: true } } },
+      });
+    }
+
+    // DEBUG: log values used in permission check to help diagnose 403
+    try {
+      console.log('[DEBUG] appointments.ofProfessional check — professionalId=%s, prof.userId=%s (typeof=%s), req.user.sub=%s (typeof=%s), req.user.role=%s',
+        String(professionalId), String(prof.userId), typeof prof.userId, String(user.sub), typeof user.sub, String(user.role));
+    } catch (e) {
+      console.log('[DEBUG] appointments.ofProfessional check — failed to stringify debug values', e);
+    }
+
+    // PROFESSIONAL/HELPER can only fetch if they are linked to this professional record
+    // ensure numeric comparison to avoid string/number mismatches from JWT 'sub'
+    if (Number(prof.userId) !== Number(user.sub)) {
+      console.log('[DEBUG] permission denied: Number(prof.userId) !== Number(user.sub) ->', Number(prof.userId), Number(user.sub));
+      throw new ForbiddenException('Sem permissão para acessar a agenda deste profissional');
+    }
+
+    return this.prisma.appointment.findMany({
+      where: { professionalId, status: { not: 'CANCELLED' } },
+      orderBy: { startAt: 'asc' },
+      include: { user: { select: { id: true, name: true, email: true } } },
+    });
+  }
 
   // Admin: todos; Helper/Profissional: seus; User: próprios
   findMine(user: { userId: number; role: string }) {
@@ -100,9 +132,14 @@ ofProfessional(user: { sub: number; role: string }, professionalId: number) {
     const appt = await this.prisma.appointment.findUnique({ where: { id } });
     if (!appt) throw new NotFoundException('Agendamento não encontrado');
 
-    // Permissão: Admin pode tudo; usuário só altera o próprio
-    if (user.role !== 'ADMIN' && appt.userId !== user.userId) {
-      throw new ForbiddenException('Sem permissão');
+    // Permissão: Admin pode tudo; usuário só altera o próprio; profissional vinculado também pode alterar notas
+    // Helpers (staff) também devem poder editar apenas as notas — permitimos HELPERS aqui
+    if (user.role !== 'ADMIN' && user.role !== 'HELPER' && appt.userId !== user.userId) {
+      // check if user is the professional owner of this appointment
+      const prof = await this.prisma.professional.findUnique({ where: { id: appt.professionalId } });
+      if (!prof || prof.userId !== user.userId) {
+        throw new ForbiddenException('Sem permissão');
+      }
     }
 
     const start = dto.startAt ? new Date(dto.startAt) : appt.startAt;

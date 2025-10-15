@@ -6,4 +6,6 @@ export class CreateUserDto {
   @IsString() @MinLength(6) password: string;
   @IsOptional() @IsEnum(Role) role?: Role;
   @IsOptional() @IsString() avatarUrl?: string;
+  @IsOptional() @IsString() specialty?: string;
+  @IsOptional() @IsString() bio?: string;
 }

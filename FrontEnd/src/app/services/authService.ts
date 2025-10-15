@@ -1,7 +1,7 @@
 import { api } from './api';
 
 export type AuthResponse = { access_token: string };
-export type RegisterPayload = { name: string; email: string; password: string };
+export type RegisterPayload = { name: string; email: string; password: string; role?: string; avatarUrl?: string; specialty?: string; bio?: string; crp?: string };
 export type MeResponse = { id: number; email: string; role: string; name?: string };
 
 export async function register(data: RegisterPayload) {
@@ -9,6 +9,11 @@ export async function register(data: RegisterPayload) {
     name: data.name.trim(),
     email: data.email.trim().toLowerCase(),
     password: data.password,
+    role: data.role,
+    avatarUrl: data.avatarUrl,
+    specialty: data.specialty,
+    bio: data.bio,
+    crp: data.crp,
   };
   const res = await api.post('/auth/register', payload);
   return res.data as { id: number; email: string; name: string; role: string };

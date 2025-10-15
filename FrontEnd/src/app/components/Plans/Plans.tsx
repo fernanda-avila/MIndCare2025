@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { listarPlanos } from '../Services';
 import styles from './plan.module.css';
+import { swalSuccess, swalInfo } from '../../utils/swal';
 
 type Plano = {
   id: string;
@@ -49,16 +50,16 @@ const Planos: React.FC = () => {
     setIndexSelecionado((prevIndex) => (prevIndex === planos.length - 1 ? 0 : prevIndex + 1));
   };
 
-  const handleContratar = (planoId: string) => {
-    alert(`Plano ${planoId} contratado com sucesso!`);
+  const handleContratar = async (planoId: string) => {
+    await swalSuccess(`Plano ${planoId} contratado com sucesso!`);
   };
 
-  const handleAgendarConsulta = (planoId: string) => {
-    alert(`Agendando consulta para o plano ${planoId}`);
+  const handleAgendarConsulta = async (planoId: string) => {
+    await swalInfo(`Agendando consulta para o plano ${planoId}`);
   };
 
-  const handleIniciarChat = (planoId: string) => {
-    alert(`Iniciando chat de apoio emocional para o plano ${planoId}`);
+  const handleIniciarChat = async (planoId: string) => {
+    await swalInfo(`Iniciando chat de apoio emocional para o plano ${planoId}`);
   };
 
   // Função para calcular a classe de destaque baseada na posição

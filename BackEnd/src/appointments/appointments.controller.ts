@@ -56,11 +56,13 @@ export class AppointmentsController {
     return this.appts.cancel({ userId: req.user.sub, role: req.user.role }, id);
   }
 
-  // Agenda de um PROFISSIONAL (ADMIN e PROFESSIONAL podem acessar)
+  // Agenda de um PROFISSIONAL (ADMIN, PROFESSIONAL e HELPER podem acessar)
   @Get('professional/:id')
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN, Role.PROFESSIONAL)
+  @Roles(Role.ADMIN, Role.PROFESSIONAL, Role.HELPER)
   ofProfessional(@Param('id', ParseIntPipe) id: number, @Request() req: any) {
-    return this.appts.ofProfessional({ sub: req.user.sub, role: req.user.role }, id);
+    // some auth flows put the id in req.user.sub, others in req.user.userId — normalize both
+    const sub = req.user?.sub ?? req.user?.userId;
+    return this.appts.ofProfessional({ sub, role: req.user.role }, id);
   }
 }

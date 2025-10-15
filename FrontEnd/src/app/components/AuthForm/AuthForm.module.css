@@ -6,8 +6,10 @@
   gap: 1rem;
   margin: 20px auto;
   padding: 2rem;
-  background-color: #f2f2f2;
-  border-radius: 8px;
+  background-color: #fafafa;
+  border-radius: 12px;
+  width: min(720px, 96%);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.04);
 }
 
 .inputGroup {
@@ -25,7 +27,7 @@
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 300px;
+  width: 100%;
   
 }
 
@@ -37,7 +39,7 @@
   padding: 0.75rem;
   font-size: 1rem;
   color: white;
-  background-color: #ff6c3fe1;
+  background-color: #ff6c3f;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -55,3 +57,31 @@
   cursor: pointer;
   text-decoration: none;
 }
+
+.secondary {
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  color: #333;
+  cursor: pointer;
+}
+
+.secondary:hover { background: #fff; }
+
+.avatarPreview {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 1px solid #eaeaea;
+}
+
+.message {
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+.message.success { background: #e6fffb; color: #0f766e; border: 1px solid #c7f9f2; }
+.message.error { background: #fff1f2; color: #9f1239; border: 1px solid #ffd7df; }
+.disabled { opacity: 0.6; pointer-events: none; }

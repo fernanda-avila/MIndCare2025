@@ -1,0 +1,136 @@
+.overlay{
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(2,6,23,0.35);
+  z-index: 120000;
+}
+
+.modal{
+  width: 100%;
+  max-width: 720px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 30px 70px rgba(2,6,23,0.20);
+  padding: 20px;
+  transform: translateY(0);
+  animation: modalIn 220ms ease;
+}
+
+@keyframes modalIn {
+  from { transform: translateY(8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: none;
+  padding: 8px 0 14px 0;
+  gap: 12px;
+  background: linear-gradient(90deg, rgba(251,146,60,0.06), rgba(249,115,22,0.03));
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.header h2{ margin: 0; font-size: 1.25rem; color: #0f172a; font-weight: 800 }
+
+.close{
+  background: rgba(15,23,42,0.05);
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form{
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.row{
+  display:flex;
+  gap: 10px;
+}
+
+.input{
+  flex:1;
+  padding: 12px 14px;
+  border: 1px solid rgba(15,23,42,0.08);
+  border-radius: 12px;
+  background: #fff;
+  font-size: 0.98rem;
+}
+
+.input:focus { box-shadow: 0 6px 20px rgba(109,40,217,0.06); outline: none; border-color: rgba(255,146,60,0.9) }
+
+.textarea{ min-height: 140px; padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(15,23,42,0.08); font-size: 0.98rem }
+
+/* Harmonize primary/secondary button styles with BookingModal visual language */
+.actions {
+  margin: 6px 0 4px; /* aproximação leve, parecido com booking modal */
+  display: flex;
+  gap: 8px; /* aproximação sutil entre botões */
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.btnPrimary{
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* match booking btnPrimary tone */
+  color: white;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.98rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 20px rgba(15,187,166,0.08);
+}
+
+.btnPrimary[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btnSecondary{
+  background: transparent;
+  border: 1px solid #d1d5db;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.btnWhatsApp{
+  background: #25D366; /* whatsapp green */
+  color: #fff;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  box-shadow: 0 8px 30px rgba(37,211,102,0.12);
+}
+.btnWhatsApp svg { display: inline-block; vertical-align: middle }
+
+/* small responsive tweaks */
+@media (max-width: 640px) {
+  .row { flex-direction: column; }
+  .actions { flex-direction: column-reverse; align-items: stretch; }
+  .btnPrimary, .btnWhatsApp, .btnSecondary { width: 100%; justify-content: center; }
+}

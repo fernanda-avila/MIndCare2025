@@ -400,6 +400,65 @@ body {
   border-radius: 10px;
 }
 
+/* SweetAlert overrides: garantir botões de confirmação laranja e ícone de sucesso mais intenso */
+.swal2-container .swal2-confirm {
+  background-color: #F97316 !important; /* laranja */
+  border-color: #F97316 !important;
+  box-shadow: none !important;
+}
+.swal2-container .swal2-confirm:hover {
+  background-color: #FB923C !important;
+  border-color: #FB923C !important;
+}
+.swal2-icon.swal2-success .swal2-success-ring,
+.swal2-icon.swal2-success .swal2-success-circular-line-left,
+.swal2-icon.swal2-success .swal2-success-circular-line-right,
+.swal2-icon.swal2-success .swal2-success-fix {
+  color: #047857 !important; /* verde mais intenso */
+  stroke: #047857 !important;
+}
+.swal2-icon.swal2-success {
+  border-color: #047857 !important;
+  color: #047857 !important;
+}
+
+/* Ícone de pergunta (question) mais neutro/cinza */
+.swal2-icon.swal2-question {
+  border-color: #6b7280 !important; /* borda do círculo */
+  color: #6b7280 !important; /* cor do símbolo */
+}
+.swal2-icon.swal2-question .swal2-question-mark {
+  stroke: #6b7280 !important;
+  color: #6b7280 !important;
+}
+
+/* Classes customizadas para SweetAlert (garantia máxima) */
+.mc-swal-confirm {
+  background-color: #FB923C !important;
+  border-color: #FB923C !important;
+  color: #fff !important;
+}
+.mc-swal-confirm:hover {
+  background-color: #FFB37A !important;
+  border-color: #FFB37A !important;
+}
+.mc-swal-cancel {
+  background-color: transparent !important;
+  border: 1px solid #6b7280 !important;
+  color: #6b7280 !important;
+}
+
+/* Garantir que SweetAlert fique acima de todos os elementos da UI */
+.swal2-container {
+  z-index: 999999 !important;
+}
+.swal2-popup {
+  z-index: 1000000 !important;
+}
+.swal2-backdrop {
+  z-index: 999998 !important;
+}
+
 .timeline-event {
   flex: 0 0 300px;
   scroll-snap-align: start;

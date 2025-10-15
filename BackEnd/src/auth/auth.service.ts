@@ -25,6 +25,22 @@ export class AuthService {
       const user = await this.prisma.user.create({
         data: { email, name, passwordHash, role },
       });
+
+      // if registering as HELPER, create a Professional request (PENDING)
+      if (role === Role.HELPER) {
+        await this.prisma.professional.create({
+          data: {
+            name,
+            specialty: data.specialty || null,
+            bio: data.bio || null,
+            crp: data.crp || null,
+            avatarUrl: data.avatarUrl || null,
+            user: { connect: { id: user.id } },
+            active: false,
+            registrationStatus: 'PENDING'
+          }
+        }).catch(() => {});
+      }
       return { id: user.id, email: user.email, name: user.name, role: user.role };
     } catch (e) {
 

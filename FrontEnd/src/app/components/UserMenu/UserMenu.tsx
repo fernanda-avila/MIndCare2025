@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import styles from './UserMenu.module.css';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../Toast/ToastContext';
+import { swalConfirm, swalSuccess } from '../../utils/swal';
 
 const UserMenu: React.FC = () => {
   const { user, logout } = useAuth();
@@ -26,13 +27,14 @@ const UserMenu: React.FC = () => {
           <div className={styles.divider} />
           <button
             className={styles.item}
-            onClick={() => {
-              const ok = confirm('Tem certeza que deseja sair?');
-              if (!ok) return;
+            onClick={async () => {
+              const res = await swalConfirm({ title: 'Sair', text: 'Tem certeza que deseja sair?', confirmButtonText: 'Sair', cancelButtonText: 'Cancelar' });
+              if (!res.isConfirmed) return;
               logout();
               setOpen(false);
               router.push('/');
               showToast('Você saiu da conta');
+              await swalSuccess('Você saiu', 'Sessão encerrada com sucesso.');
             }}
           >
             Sair

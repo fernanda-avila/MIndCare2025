@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { swalConfirm, swalSuccess } from '../utils/swal';
 import Link from 'next/link';
 import { api } from '../services/api';
 import styles from './profile.module.css';
@@ -15,7 +16,7 @@ export default function ProfilePage() {
   useEffect(() => {
     let mounted = true;
     if (!user) return;
-    api.get('/professionals')
+    api.get('/users/helpers')
       .then((res) => {
         const list = Array.isArray(res.data) ? res.data : (res.data?.items ?? []);
         const mine = list.find((p: any) => p.userId === user.id);
@@ -69,7 +70,12 @@ export default function ProfilePage() {
           )}
           <div className={styles.actions}>
             <Link href="/profile/edit" className={styles.editButton}>Editar perfil</Link>
-            <button className={styles.logoutButton} onClick={() => logout()}>Sair</button>
+            <button className={styles.logoutButton} onClick={async () => {
+              const r = await swalConfirm({ title: 'Sair', text: 'Tem certeza que deseja sair?' });
+              if (!r.isConfirmed) return;
+              logout();
+              await swalSuccess('Você saiu', 'Sessão encerrada com sucesso.');
+            }}>Sair</button>
           </div>
         </div>
       </div>

@@ -17,7 +17,15 @@ export class UsersService {
       if (user.role === 'HELPER') {
         const existing = await this.prisma.professional.findUnique({ where: { userId: user.id } });
         if (!existing) {
-          await this.prisma.professional.create({ data: { userId: user.id, name: user.name, specialty: null, bio: null } });
+          await this.prisma.professional.create({ data: {
+            userId: user.id,
+            name: user.name,
+            specialty: (dto as any).specialty || null,
+            bio: (dto as any).bio || null,
+            avatarUrl: (dto as any).avatarUrl || null,
+            active: true,
+            registrationStatus: 'APPROVED'
+          } });
         }
       }
     } catch (err) {

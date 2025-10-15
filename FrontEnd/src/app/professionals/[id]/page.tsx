@@ -14,12 +14,12 @@ async function getProfessional(id: string) {
 
 export default async function ProfessionalPage({ params }: { params: { id: string } }) {
   const id = params.id;
-  const p = await getProfessional(id) || { id, name: `Profissional ${id}`, specialty: 'Terapia geral', shortBio: 'Profissional experiente com foco em acolhimento.', price: 120, rating: 4.6, location: 'São Paulo', avatar: '/images/terapeuta.png' };
+  const p = await getProfessional(id) || { id, name: `Profissional ${id}`, specialty: 'Terapia geral', shortBio: 'Profissional experiente com foco em acolhimento.', price: 120, rating: 4.6, location: 'São Paulo', avatar: '/default-avatar.svg' };
 
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <img src={p.avatar ?? '/images/terapeuta.png'} alt={p.name} className={styles.avatar} />
+  <img src={p.avatar ?? '/default-avatar.svg'} alt={p.name} className={styles.avatar} />
         <div className={styles.info}>
           <h1 className={styles.name}>{p.name}</h1>
           <p className={styles.specialty}>{p.specialty}</p>

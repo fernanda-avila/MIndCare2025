@@ -1,0 +1,129 @@
+.mcTheme {
+  --mc-bg-gradient: linear-gradient(180deg, #e0fdf5 0%, #f8fafc 100%);
+  --mc-surface: #ffffff;
+  --mc-dark: #0f172a;
+  --mc-muted: #475569;
+  --mc-card-shadow: 0 8px 25px rgba(15, 187, 166, 0.08);
+}
+
+.container {
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: var(--mc-bg-gradient, linear-gradient(180deg, #e0fdf5 0%, #f8fafc 100%));
+  position: relative;
+}
+
+.content {
+  width: 100%;
+  max-width: 900px;
+  background: var(--mc-surface);
+  border-radius: 16px;
+  box-shadow: var(--mc-card-shadow);
+  padding: 24px;
+}
+
+.header h1 {
+  font-size: 1.8rem;
+  color: var(--mc-dark);
+  margin: 0 0 6px 0;
+}
+
+.header {
+  background: linear-gradient(90deg, rgba(15,187,166,0.06), rgba(59,130,246,0.03));
+  padding: 18px;
+  border-radius: 12px;
+  margin-bottom: 18px;
+}
+
+.header p {
+  color: var(--mc-muted);
+  margin: 8px 0 0 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(15,23,42,0.04);
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+}
+
+.question {
+  width: 100%;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(180deg,#fff,#f9fdfa);
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--mc-dark);
+}
+
+.question:focus {
+  outline: 3px solid rgba(13,148,136,0.12);
+}
+
+.icon {
+  font-size: 20px;
+  color: var(--mc-muted);
+  display: inline-flex;
+  transition: transform 180ms ease;
+}
+
+.openIcon { transform: rotate(180deg); }
+
+.answer {
+  padding: 0 16px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 220ms ease, padding 180ms ease;
+  color: #374151;
+}
+
+.answer.open {
+  padding: 12px 16px 18px 16px;
+  max-height: 400px; /* suficiente para a resposta */
+}
+
+.item:hover { box-shadow: 0 10px 30px rgba(2,6,23,0.06); transform: translateY(-2px); transition: all 160ms ease; }
+
+.question span { display: inline-block; }
+
+/* subtle typography */
+.item .answer { font-size: 0.97rem; line-height: 1.6; }
+
+/* back button styles copied from appointments */
+.backButton {
+  background: transparent;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  padding: 6px;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--mc-dark);
+}
+
+.backButton:hover { background: rgba(15, 23, 42, 0.06); }
+
+.backButtonContainer { position: absolute; top: 18px; left: 18px; }
+
+@media (max-width: 700px) {
+  .container { padding: 20px; }
+  .content { padding: 18px; }
+  .backButtonContainer { top: 12px; left: 12px; }
+}

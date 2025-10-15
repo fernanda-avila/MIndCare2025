@@ -10,7 +10,7 @@ export default function ProfessionalProfileModal({ professional, onClose, onRequ
     <div className={styles.overlay} role="dialog" aria-modal="true">
       <div className={styles.modal} style={{ maxWidth: 760 }}>
         <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-          <img src={(professional as any).avatarUrl ?? '/images/terapeuta.png'} alt={professional.name} className={styles.avatar} style={{ width: 120, height: 120, borderRadius: 16 }} />
+          <img src={getUploadUrl((professional as any).avatarUrl ?? '/default-avatar.svg')} alt={professional.name} className={styles.avatar} style={{ width: 120, height: 120, borderRadius: 16 }} />
           <div style={{ flex: 1 }}>
             <h2 style={{ margin: 0 }}>{professional.name}</h2>
             <div style={{ color: '#475569', marginTop: 6 }}>{professional.specialty ?? 'Especialidade não informada'}</div>

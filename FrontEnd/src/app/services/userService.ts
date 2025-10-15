@@ -1,6 +1,6 @@
 import { api } from './api';
 
-export type UserPayload = { name: string; email: string; password: string; role?: string };
+export type UserPayload = { name: string; email: string; password: string; role?: string; avatarUrl?: string; specialty?: string; bio?: string; crp?: string };
 
 export async function getUsers() {
   const res = await api.get('/users');

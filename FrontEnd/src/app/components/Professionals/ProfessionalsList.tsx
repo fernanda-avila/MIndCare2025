@@ -8,6 +8,8 @@ import { useAuth } from '../../context/AuthContext';
 import styles from './ProfessionalsList.module.css';
 import type { Professional } from './types';
 import { api } from '../../services/api';
+import getUploadUrl from '../../utils/getUploadUrl';
+import { getProfessionals } from '../../services/professionalService';
 
 
 
@@ -24,11 +26,8 @@ const ProfessionalsList: React.FC = () => {
   useEffect(() => {
     let mounted = true;
     setLoading(true);
-    api.get('/professionals')
-      .then((res) => {
-        const data = res.data;
-        // normalize response shapes
-        const list = Array.isArray(data) ? data : Array.isArray(data?.items) ? data.items : [];
+    getProfessionals()
+      .then((list) => {
         // preencher dados fictícios para apresentação quando ausentes
         const enhanced = list.map((p: any, idx: number) => {
           const seeded = Number(p.id ?? idx);
@@ -60,7 +59,7 @@ const ProfessionalsList: React.FC = () => {
       <div className={styles.debugInfo}>
         <small>Usuário atual: {user ? `${user.email ?? user.name ?? 'sem email'} (${user.role})` : 'não logado'}</small>
         <div className={styles.debugLink}>
-          <a href={`${apiBase.replace(/\/$/, '')}/professionals`} target="_blank" rel="noreferrer">Abrir endpoint de professionals (debug)</a>
+          <a href={`${apiBase.replace(/\/$/, '')}/users/helpers`} target="_blank" rel="noreferrer">Abrir endpoint de users/helpers (debug)</a>
         </div>
         {user?.role !== 'ADMIN' && (
           <div className={styles.hint}>Dica: faça login como <strong>admin@local.com</strong> para ver o botão de sincronização.</div>
@@ -111,8 +110,9 @@ const ProfessionalsList: React.FC = () => {
             <div className={styles.grid}>
               {professionals.map((p) => (
                 <article key={p.id} className={styles.card}>
-                  <div className={styles.cardInner}>
-                    <img src={'/images/terapeuta.png'} alt={p.name} className={styles.avatar} />
+            <div className={styles.cardInner}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={getUploadUrl(p.avatarUrl ?? '/default-avatar.svg')} alt={p.name} className={styles.avatar} />
                     <div className={styles.info}>
                       <div className={styles.titleRow}>
                         <h3 className={styles.name}>{p.name}</h3>

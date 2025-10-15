@@ -7,6 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum RegistrationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model User {
   id           Int           @id @default(autoincrement())
   email        String        @unique
@@ -28,7 +34,9 @@ model Professional {
   name         String
   specialty    String?
   bio          String?
+  crp          String?
   active       Boolean       @default(true)
+  registrationStatus RegistrationStatus @default(PENDING)
   appointments Appointment[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt

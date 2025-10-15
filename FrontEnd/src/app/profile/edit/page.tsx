@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useState, useRef } from 'react';
 import { api } from '../../services/api';
+import getUploadUrl from '../../utils/getUploadUrl';
 import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'next/navigation';
 import styles from './edit.module.css';
@@ -35,20 +36,20 @@ export default function ProfileEditPage() {
 
   useEffect(() => {
     let mounted = true;
-    Promise.all([api.get('/auth/me'), api.get('/professionals')])
+    Promise.all([api.get('/auth/me'), api.get('/users/helpers')])
       .then(([uRes, pRes]) => {
         if (!mounted) return;
         const u = uRes.data;
         setUser(u);
         setName(u.name ?? '');
-        const pros = Array.isArray(pRes.data) ? pRes.data : (pRes.data?.items ?? []);
+  const pros = Array.isArray(pRes.data) ? pRes.data : (pRes.data?.items ?? []);
         const mine = pros.find((p: any) => p.userId === u.id);
         if (mine) {
           setProfessional(mine);
           setSpecialty(mine.specialty ?? '');
           setBio(mine.bio ?? '');
           setActive(typeof mine.active === 'boolean' ? mine.active : true);
-          setAvatarPreview(mine.avatarUrl ?? null);
+          setAvatarPreview(getUploadUrl(mine.avatarUrl ?? null));
         } else {
           setAvatarPreview(null);
         }
@@ -77,7 +78,7 @@ export default function ProfileEditPage() {
     if (!user) return;
     setSaving(true);
     try {
-      let avatarUrl = initialStateRef.current?.avatarUrl ?? null;
+  let avatarUrl = initialStateRef.current?.avatarUrl ?? null;
 
       if (avatarFile) {
         if (!avatarFile.type.startsWith('image/')) throw new Error('Apenas imagens são permitidas');
@@ -127,7 +128,7 @@ export default function ProfileEditPage() {
     setBio(s.bio);
     setActive(s.active);
     setAvatarFile(null);
-    setAvatarPreview(s.avatarUrl);
+  setAvatarPreview(getUploadUrl(s.avatarUrl));
     setMessage(null);
     setErrorMessage(null);
   }

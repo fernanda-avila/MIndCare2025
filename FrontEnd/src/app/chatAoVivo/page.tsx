@@ -1,4 +1,4 @@
-'use client'
+ 'use client'
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { 
@@ -29,33 +29,48 @@ const DirectChatWithProfessional: React.FC = () => {
   const [messages, setMessages] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const availableProfessionals = [
-    { 
-      id: 1, 
-      name: 'Dra. Ana Silva', 
-      specialty: 'Psicóloga Clínica', 
-      rating: 4.9, 
-      status: 'online',
-      avatar: '👩‍⚕️',
-      waitTime: 'Disponível agora'
-    },
-    { 
-      id: 2, 
-      name: 'Dr. Carlos Oliveira', 
-      specialty: 'Terapeuta Cognitivo', 
-      rating: 4.8, 
-      status: 'online',
-      avatar: '👨‍⚕️',
-      waitTime: '2-5 minutos'
+  const [availableProfessionals, setAvailableProfessionals] = useState<any[] | null>(null);
+  const [loadingProfessionals, setLoadingProfessionals] = useState(false);
+  
+  // lazy import to avoid circular imports in some build setups
+  const loadProfessionals = async () => {
+    try {
+      setLoadingProfessionals(true);
+      const mod = await import('../services/professionalService');
+      const pros = await mod.getProfessionals();
+      // normalize a few fields used by this UI
+      const normalized = pros.map((p: any) => ({
+        id: p.id,
+        name: p.name || p.user?.name || p.userName || p.displayName || 'Profissional',
+        specialty: p.specialty || p.area || 'Saúde Mental',
+        rating: p.rating ?? 4.8,
+        status: p.status || 'online',
+        avatarUrl: p.avatarUrl || p.avatar || null,
+        waitTime: p.waitTime || 'Disponível agora'
+      }));
+      setAvailableProfessionals(normalized);
+    } catch (err) {
+      console.error('Erro ao carregar profissionais para chat', err);
+      setAvailableProfessionals([]);
+    } finally {
+      setLoadingProfessionals(false);
     }
-  ];
+  };
 
   useEffect(() => {
-    const available = availableProfessionals.find(p => p.status === 'online');
+    // load professionals and pick first online
+    loadProfessionals();
+  }, []);
+
+  useEffect(() => {
+    if (!availableProfessionals) return;
+    const available = availableProfessionals.find((p: any) => p.status === 'online');
     if (available) {
       setSelectedProfessional(available);
+    } else if (availableProfessionals.length > 0) {
+      setSelectedProfessional(availableProfessionals[0]);
     }
-  }, []);
+  }, [availableProfessionals]);
 
   const handleModeSelection = (mode: 'text' | 'audio' | 'video') => {
     setSelectedMode(mode);
@@ -124,9 +139,18 @@ const DirectChatWithProfessional: React.FC = () => {
         <p>Escolha como deseja se comunicar</p>
       </div>
 
-      {selectedProfessional && (
-        <div className={styles.professionalInfo}>
-          <div className={styles.avatar}>{selectedProfessional.avatar}</div>
+      {loadingProfessionals ? (
+        <div className={styles.loading}>Carregando profissionais...</div>
+      ) : selectedProfessional && (
+          <div className={styles.professionalInfo}>
+          <div className={styles.avatar}>
+            {selectedProfessional?.avatarUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={selectedProfessional.avatarUrl} alt={selectedProfessional.name} />
+            ) : (
+              selectedProfessional?.avatar || '👩‍⚕️'
+            )}
+          </div>
           <div className={styles.details}>
             <h3>{selectedProfessional.name}</h3>
             <p>{selectedProfessional.specialty}</p>
@@ -163,8 +187,15 @@ const DirectChatWithProfessional: React.FC = () => {
   const renderChatView = () => (
     <div className={styles.chatContainer}>
       <div className={styles.chatHeader}>
-        <div className={styles.professionalInfo}>
-          <div className={styles.avatar}>{selectedProfessional?.avatar}</div>
+          <div className={styles.professionalInfo}>
+          <div className={styles.avatar}>
+            {selectedProfessional?.avatarUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={selectedProfessional.avatarUrl} alt={selectedProfessional?.name} />
+            ) : (
+              selectedProfessional?.avatar || '👩‍⚕️'
+            )}
+          </div>
           <div>
             <h3>{selectedProfessional?.name}</h3>
             <p>{selectedProfessional?.specialty}</p>
@@ -219,8 +250,13 @@ const DirectChatWithProfessional: React.FC = () => {
         <div className={styles.videoFeed}>
           {selectedMode === 'video' && (
             <div className={styles.remoteVideo}>
-              <div className={styles.videoPlaceholder}>
-                {selectedProfessional?.avatar}
+                <div className={styles.videoPlaceholder}>
+                {selectedProfessional?.avatarUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={selectedProfessional.avatarUrl} alt={selectedProfessional?.name} />
+                ) : (
+                  selectedProfessional?.avatar || '👩‍⚕️'
+                )}
                 <p>{selectedProfessional?.name}</p>
               </div>
             </div>

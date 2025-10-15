@@ -1,12 +1,28 @@
 // Minimal static professionals component (reverted)
 import styles from './Professionals-lgbt.module.css';
+import React, { useEffect, useState } from 'react';
+import { getProfessionals } from '../../services/professionalService';
 
 export default function Profissionais() {
-  const professionals = [
-    { id: 1, name: 'Dra. Maria Silva', specialty: 'Psicóloga Clínica', photo: '/images/terapeuta.png', price: 'R$ 150' },
-    { id: 2, name: 'Dr. João Santos', specialty: 'Psiquiatra', photo: '/images/terapeuta.png', price: 'R$ 250' },
-    { id: 3, name: 'Dra. Ana Costa', specialty: 'Psicóloga', photo: '/images/terapeuta.png', price: 'R$ 120' }
-  ];
+  const [professionals, setProfessionals] = useState<any[]>([]);
+
+  useEffect(() => {
+    let mounted = true;
+    getProfessionals()
+      .then((list) => {
+        if (!mounted) return;
+        // enrich like other lists
+        const enhanced = list.map((p: any, idx: number) => {
+          const seeded = Number(p.id ?? idx);
+          const price = p.price ?? (80 + (seeded % 5) * 30 + (seeded % 3) * 5);
+          const rating = p.rating ?? (3.5 + (seeded % 15) * 0.1);
+          return { ...p, price, rating: Math.min(5, Math.round(rating * 10) / 10) };
+        });
+        setProfessionals(enhanced);
+      })
+      .catch(() => setProfessionals([]));
+    return () => { mounted = false };
+  }, []);
 
   return (
     <section className={styles.section} aria-labelledby="profissionais-title">
@@ -20,7 +36,7 @@ export default function Profissionais() {
           {professionals.map(p => (
             <article key={p.id} className={styles.card}>
               <div className={styles.media}>
-                <img src={p.photo} alt={p.name} className={styles.photo} />
+                <img src={getUploadUrl(p.avatarUrl ?? p.photo ?? '/default-avatar.svg')} alt={p.name} className={styles.photo} />
               </div>
               <div className={styles.body}>
                 <h3 className={styles.name}>{p.name}</h3>
@@ -30,7 +46,7 @@ export default function Profissionais() {
                     <span>★★★★☆</span>
                     <small className={styles.reviews}>(45)</small>
                   </div>
-                  <div className={styles.price}>{p.price}</div>
+                  <div className={styles.price}>{p.price ? `R$ ${p.price}` : 'A consultar'}</div>
                 </div>
                 <div className={styles.actions}>
                   <button className={styles.btnPrimary}>Agendar</button>

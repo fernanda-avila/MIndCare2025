@@ -30,6 +30,27 @@ export class ProfessionalsController {
   @Post()
   create(@Body() dto: CreateProfessionalDto) { return this.pros.create(dto); }
 
+  // Admin: listar solicitações pendentes
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @Get('requests/pending')
+  pendingRequests() { return this.pros.findPendingRequests(); }
+
+  // Admin: aprovar solicitação
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @Post(':id/approve')
+  approve(@Param('id') id: string) { return this.pros.approve(+id); }
+
+  // Admin: reprovar solicitação
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @Post(':id/reject')
+  reject(@Param('id') id: string) { return this.pros.reject(+id); }
+
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN, Role.HELPER)

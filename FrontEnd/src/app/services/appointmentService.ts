@@ -24,3 +24,8 @@ export async function getProfessionalAppointments(professionalId: number) {
   const res = await api.get(`/appointments/professional/${professionalId}`);
   return res.data;
 }
+
+export async function updateAppointment(appointmentId: number, data: { notes?: string }) {
+  const res = await api.patch(`/appointments/${appointmentId}`, data);
+  return res.data;
+}

@@ -1,0 +1,9 @@
+{
+  "crp": "CRP-999",
+  "password": "password123",
+  "email": "test-helper-123@example.com",
+  "role": "HELPER",
+  "name": "Test Helper",
+  "bio": "Bio de teste",
+  "specialty": "Terapia"
+}

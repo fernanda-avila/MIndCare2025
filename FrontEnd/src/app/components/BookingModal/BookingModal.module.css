@@ -97,9 +97,11 @@
 }
 
 .actions {
-  margin-top: 16px;
+  margin: 4px 0 3px; /* menor ainda — aproxima os botões */
   display: flex;
-  gap: 10px;
+  gap: 4px; /* aproximação sutil */
+  justify-content: flex-end; /* alinhar à direita por padrão */
+  align-items: center;
 }
 
 .btnPrimary {
@@ -122,4 +124,17 @@
   padding: 10px 14px;
   border-radius: 10px;
   cursor: pointer;
+}
+
+/* Responsivo: empilha botões em telas pequenas e mantém espaçamento confortável */
+@media (max-width: 480px) {
+  .actions {
+    flex-direction: column-reverse; /* confirmar em cima, cancelar em baixo */
+    gap: 3px;
+    align-items: stretch;
+    margin: 3px 0 2px; /* ajuste mobile para aproximação */
+  }
+  .btnPrimary, .btnSecondary {
+    width: 100%;
+  }
 }
