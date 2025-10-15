@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from './UserMenu.module.css';
@@ -11,11 +11,31 @@ import { swalConfirm, swalSuccess } from '../../utils/swal';
 const UserMenu: React.FC = () => {
   const { user, logout } = useAuth();
   const [open, setOpen] = useState(false);
+  const closeTimeout = useRef<number | null>(null);
   const router = useRouter();
   const { showToast } = useToast();
 
+  useEffect(() => {
+    return () => {
+      if (closeTimeout.current) window.clearTimeout(closeTimeout.current);
+    };
+  }, []);
+
+  const handleMouseEnter = () => {
+    if (closeTimeout.current) {
+      window.clearTimeout(closeTimeout.current);
+      closeTimeout.current = null;
+    }
+  };
+
+  const handleMouseLeave = () => {
+    // add small delay so user can move cursor into dropdown without it disappearing
+    if (closeTimeout.current) window.clearTimeout(closeTimeout.current);
+    closeTimeout.current = window.setTimeout(() => { setOpen(false); closeTimeout.current = null; }, 200) as unknown as number;
+  };
+
   return (
-    <div className={styles.container} onMouseLeave={() => setOpen(false)}>
+    <div className={styles.container} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <button className={styles.avatarButton} onClick={() => setOpen((s) => !s)}>
         <span className={styles.avatar}>{user?.name ? user.name.charAt(0).toUpperCase() : 'U'}</span>
       </button>

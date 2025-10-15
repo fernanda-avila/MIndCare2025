@@ -31,6 +31,19 @@
   
 }
 
+.eyeBtn {
+  position: absolute;
+  right: 8px;
+  top: 40px; /* moved additional 2px down for better centering */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #666;
+}
+
+.eyeBtn:hover { color: #333; }
+
 .checkbox {
   margin-top: 0.5rem;
 }

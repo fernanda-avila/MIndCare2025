@@ -9,6 +9,7 @@ const AuthForm: React.FC = () => {
     password: '',
     name: '',
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [asHelper, setAsHelper] = useState(false);
   const [specialty, setSpecialty] = useState('');
   const [bio, setBio] = useState('');
@@ -90,10 +91,10 @@ const AuthForm: React.FC = () => {
         />
       </div>
 
-      <div className={styles.inputGroup}>
+      <div className={styles.inputGroup} style={{ position: 'relative' }}>
         <label className={styles.label}>Password:</label>
         <input
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           name="password"
           value={formData.password}
           onChange={handleInputChange}
@@ -102,6 +103,20 @@ const AuthForm: React.FC = () => {
           autoComplete={isLogin ? 'current-password' : 'new-password'}
           disabled={loading}              // ✅
         />
+        <button
+          type="button"
+          aria-label={showPassword ? 'Esconder senha' : 'Mostrar senha'}
+          onClick={() => setShowPassword((s) => !s)}
+          className={styles.eyeBtn}
+        >
+          {showPassword ? (
+            // olho aberto
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          ) : (
+            // olho com risquinho (fechado)
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7 1.63-2.54 4.1-4.55 7.02-5.6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/><path d="M1 1l22 22" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          )}
+        </button>
       </div>
 
       {!isLogin && (

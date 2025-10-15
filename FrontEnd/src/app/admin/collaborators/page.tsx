@@ -20,6 +20,7 @@ export default function AdminCollaborators() {
   const [newPassword, setNewPassword] = useState('');
   const [newSpecialty, setNewSpecialty] = useState('');
   const [newBio, setNewBio] = useState('');
+  const [showNewPassword, setShowNewPassword] = useState(false);
   const [newAvatarFile, setNewAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -130,7 +131,16 @@ export default function AdminCollaborators() {
       <div className={styles.form}>
         <input placeholder="Nome" value={newName} onChange={(e) => setNewName(e.target.value)} />
         <input placeholder="Email" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
-        <input placeholder="Senha" type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+        <div style={{ position: 'relative' }}>
+          <input placeholder="Senha" type={showNewPassword ? 'text' : 'password'} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+          <button type="button" aria-label={showNewPassword ? 'Esconder senha' : 'Mostrar senha'} onClick={() => setShowNewPassword(s => !s)} style={{ position: 'absolute', right: 8, top: 14, background: 'transparent', border: 'none', cursor: 'pointer' }}>
+            {showNewPassword ? (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            ) : (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7 1.63-2.54 4.1-4.55 7.02-5.6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/><path d="M1 1l22 22" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            )}
+          </button>
+        </div>
         <input placeholder="Especialidade" value={newSpecialty} onChange={(e) => setNewSpecialty(e.target.value)} />
         <input placeholder="Bio" value={newBio} onChange={(e) => setNewBio(e.target.value)} />
         <div style={{ display:'flex', gap:8, alignItems:'center' }}>
@@ -218,6 +228,7 @@ export default function AdminCollaborators() {
                         <div>
                           <div><strong>{p.user?.name || p.user?.email || p.name}</strong> <small style={{ color: '#666' }}>#{p.id}</small></div>
                           <div style={{ color: '#444', marginTop:4 }}>{p.specialty || 'Especialidade não informada'}</div>
+                          {p.crp && <div style={{ color: '#444', marginTop:6, fontSize:13 }}>CRP: {p.crp}</div>}
                         </div>
                         <div style={{ textAlign: 'right' }}>
                           <div className={styles.pricePill}>R$ {priceLow} - {priceHigh}</div>
